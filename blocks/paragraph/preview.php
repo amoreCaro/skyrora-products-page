@@ -1,20 +1,6 @@
 <?php
-if (!defined('ABSPATH')) {
-    exit;
-}
 
-/**
- * Block Name: Paragraph
- */
+$is_placeholder_preview = true;
+$content = 'Skyrora is developing a sustainable launch vehicle to provide dedicated access to space for small satellites.';
 
-$content = get_field('paragraph_text');
-?>
-<div id="section-<?php echo esc_attr( skyrora_section_index() ); ?>" class="container article-container">
-    <article class="article-landing article-landing--long">
-        <?php if ($content) : ?>
-            <p>
-                <?php echo wp_kses_post($content); ?>
-            </p>
-        <?php endif; ?>
-    </article>
-</div>
+include __DIR__ . '/render.php';

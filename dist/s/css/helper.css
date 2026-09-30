@@ -35,6 +35,89 @@
     }
 }
 
+/*
+ * Quote block — match Gutenberg preview on the front.
+ * Scoped off .editor-styles-wrapper: rem here is html 10px; editor html is ~16px
+ * and already has the same look in admin.css (px).
+ */
+body:not(.editor-styles-wrapper) .article-landing.article-landing--long.article-landing--quote {
+    padding-top: 15rem;
+}
+
+body:not(.editor-styles-wrapper) .article-landing.article-landing--long.article-landing--quote,
+body:not(.editor-styles-wrapper) .article-landing.article-landing--long.article-landing--quote p,
+body:not(.editor-styles-wrapper) .article-landing.article-landing--long.article-landing--quote ul,
+body:not(.editor-styles-wrapper) .article-landing.article-landing--long.article-landing--quote blockquote,
+body:not(.editor-styles-wrapper) .article-landing.article-landing--long.article-landing--quote blockquote p {
+    max-width: none;
+    width: 100%;
+}
+
+body:not(.editor-styles-wrapper) .article-landing--quote blockquote {
+    margin: 0;
+    padding: 0 0 0 5rem;
+    border-left: 3px solid #2a5dea;
+}
+
+body:not(.editor-styles-wrapper) .article-landing--quote blockquote p {
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-weight: 600;
+    font-size: 2.2rem;
+    line-height: 3.1rem;
+    color: #fff;
+}
+
+body:not(.editor-styles-wrapper) .article-landing--quote blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+body:not(.editor-styles-wrapper) .article-landing--quote ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+body:not(.editor-styles-wrapper) .article-landing--quote ul li {
+    display: flex;
+    align-items: flex-start;
+    font-size: 1.8rem;
+    line-height: 1.6em;
+    color: #fff;
+    font-weight: 500;
+    margin: 0;
+}
+
+body:not(.editor-styles-wrapper) .article-landing--quote ul li:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+body:not(.editor-styles-wrapper) .article-landing--quote ul li::before {
+    content: " ";
+    width: 0.8rem;
+    height: 0.8rem;
+    background-color: #2a5dea;
+    margin-right: 2rem;
+    margin-top: 1rem;
+    flex-shrink: 0;
+}
+
+@media (max-width: 767px) {
+    body:not(.editor-styles-wrapper) .article-landing.article-landing--long.article-landing--quote {
+        padding-top: 15rem;
+    }
+
+    body:not(.editor-styles-wrapper) .article-landing--quote blockquote {
+        padding: 0 0 0 5rem;
+    }
+
+    body:not(.editor-styles-wrapper) .article-landing--quote blockquote p {
+        font-size: 2.2rem;
+        line-height: 3.1rem;
+    }
+}
+
 /* Innovation / about media: raised overlap like skyrora-theme */
 .section.about {
     padding-top: 0
@@ -114,6 +197,11 @@
 .product__video {
     height: 100%;
     width: 100%
+}
+
+/* Video/innovation overlays the products grid (products stay above the hero) */
+.section.about {
+    z-index: 100;
 }
 
 .js-product:hover .product__video {
@@ -221,6 +309,35 @@
     }
 }
 
+/* News: 2 equal columns 768–1439; 3-col collage (16/8) from 1440+ */
+@media (min-width: 768px) and (max-width: 1439.98px) {
+    .news .col-lg-16,
+    .news .col-lg-8,
+    .news .col-md-12,
+    .news__collage [class*="col-"],
+    .news__row [class*="col-"] {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (min-width: 1440px) {
+    .news .col-lg-16 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 66.66667%;
+        flex: 0 0 66.66667%;
+        max-width: 66.66667%;
+    }
+    .news .col-lg-8 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 33.33333%;
+        flex: 0 0 33.33333%;
+        max-width: 33.33333%;
+    }
+}
+
 .product__info-top span {
     font-size: 2rem;
     font-weight: 700;
@@ -236,4 +353,16 @@ img {
 
 .pagespeedninja {
     display: none !important;
+}
+
+/* Footer: five equal columns. Do not use col-md-8 (3-col) or col-lg-4 (6-col). */
+@media (min-width: 1025px) {
+    .footer__content-main > .footer__col,
+    .footer__content-main > .js-collapse {
+        -webkit-box-flex: 0 !important;
+        -ms-flex: 0 0 20% !important;
+        flex: 0 0 20% !important;
+        max-width: 20% !important;
+        width: 20% !important;
+    }
 }

@@ -1,0 +1,24 @@
+/* Gutenberg: quote uses the full .container, like frontend .article-landing--long */
+.wp-block-acf-quote .article-landing.article-landing--quote,
+.wp-block-acf-quote .article-landing.article-landing--quote p,
+.wp-block-acf-quote .article-landing.article-landing--quote ul,
+.wp-block-acf-quote blockquote,
+.wp-block-acf-quote blockquote p,
+.article-landing.article-landing--quote,
+.article-landing.article-landing--quote p,
+.article-landing.article-landing--quote ul,
+.article-landing--quote blockquote,
+.article-landing--quote blockquote p {
+    max-width: none !important;
+    width: 100%;
+}
+
+.wp-block-acf-quote .container.article-container {
+    max-width: 1011px;
+}
+
+@media (min-width: 1220px) {
+    .wp-block-acf-quote .container.article-container {
+        max-width: 1200px;
+    }
+}

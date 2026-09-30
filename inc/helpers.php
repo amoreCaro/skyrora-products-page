@@ -44,27 +44,6 @@ function skyrora_image_url($image_id, $widthSize, $heightSize, $class_name = 'la
 }
 
 /**
- * Generate dynamic link based on ACF radio selection
- * Allows switching between post link and category link
- */
-function swipeks_leader_custom_link($select_data, $post_link_data, $category_link_data, $id) {
-    
-    $radio_button = get_field($select_data,$id);
-    if($radio_button == 'post_select'){
-        $post_url_data = get_field($post_link_data,$id);
-        if($post_url_data){
-            echo esc_url(get_permalink($post_url_data));
-        }
-    }
-    if($radio_button == 'category_select'){
-        $category_url_data = get_field($category_link_data,$id);
-        if($category_url_data){
-            echo esc_url(get_term_link($category_url_data));
-        }
-    }
-}
-
-/**
  * Outputs an ACF field value with proper escaping based on context.
  *
  * This helper retrieves a value from ACF using get_field() and safely outputs it
@@ -129,6 +108,26 @@ function skyrora_section_index()
 	$GLOBALS['skyrora_section_index']++;
 
 	return (int) $GLOBALS['skyrora_section_index'];
+}
+
+/**
+ * Normalize an ACF relationship / post-object value to a post ID.
+ *
+ * Return format can be object, ID, or array depending on ACF version and field settings.
+ *
+ * @param mixed $item
+ * @return int
+ */
+function skyrora_acf_item_id($item) {
+	if (is_object($item) && isset($item->ID)) {
+		return (int) $item->ID;
+	}
+
+	if (is_array($item) && isset($item['ID'])) {
+		return (int) $item['ID'];
+	}
+
+	return (int) $item;
 }
 
 /**

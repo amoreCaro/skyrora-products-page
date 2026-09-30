@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "acf/quote",
+  "title": "Block - Quote",
+  "category": "skyrora",
+  "icon": "format-quote",
+  "keywords": ["quote", "blockquote"],
+  "acf": {
+    "blockVersion": 2,
+    "mode": "preview",
+    "renderTemplate": "render.php"
+  },
+  "supports": {
+    "anchor": true,
+    "mode": true
+  },
+  "example": {
+    "attributes": {
+      "mode": "preview",
+      "data": {
+        "is_preview": true
+      }
+    }
+  }
+}

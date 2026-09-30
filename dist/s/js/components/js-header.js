@@ -74,7 +74,7 @@
             // } else {
             //     $('.js-header').removeClass('header--fixed')
             // }
-            if($('.js-header').offset().top > 0) {
+            if($(window).scrollTop() > 0) {
                 $('.js-header').closest(".l-wrapper").find('.js-header-anchor').css({
                     "opacity": "0",
                     "visibility": "hidden"

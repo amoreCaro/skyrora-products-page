@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "acf/video",
+  "title": "Block - Video",
+  "category": "skyrora",
+  "icon": "format-video",
+  "keywords": ["video", "media"],
+  "acf": {
+    "blockVersion": 2,
+    "mode": "preview",
+    "renderTemplate": "render.php"
+  },
+  "supports": {
+    "anchor": true,
+    "mode": true
+  },
+  "example": {
+    "attributes": {
+      "mode": "preview",
+      "data": {
+        "is_preview": true
+      }
+    }
+  }
+}

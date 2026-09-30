@@ -18,3 +18,8 @@
 #mainPageCategoriesId {
     z-index: 99;
 }
+
+/* Innovation/video after products must sit above the products grid */
+.section.about {
+    z-index: 100;
+}

@@ -1,18 +1,15 @@
-<<<<<<< HEAD
-# WordPress core
+# WordPress core (if this repo is ever placed at WP root)
 wp-admin/
 wp-includes/
-
-# Ignore wp-content except themes and plugins
 wp-content/cache/
 wp-content/backups/
 wp-content/upgrade/
 wp-content/uploads/
 
-# Ignore debug files
+# Logs and archives
 *.log
 *.sql
-*.zi
+*.zip
 *.tar.gz
 
 # OS generated files
@@ -23,21 +20,23 @@ Thumbs.db
 .idea/
 .vscode/
 
-# Composer and Node modules
+# Dependencies and generated builds
 vendor/
+node_modules/
+**/node_modules/
 assets/node_modules/
-assets/dist
-git-helper.html
+assets/dist/
 
 # Environment files
 .env
 .env.local
 .env.*.local
 
-**/node_modules/
-=======
+# Local / temporary
+git-helper.html
+.tmp_img/
+.worktrees/
+
+# Large media (already-tracked files remain tracked)
 *.mp4
 *.webm
-node_modules/
-dist/s/images/useful/
->>>>>>> dev

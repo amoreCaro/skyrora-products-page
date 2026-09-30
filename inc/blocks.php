@@ -1,6 +1,12 @@
 <?php
 
-if (!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+if (!defined('ACF_EXPERIMENTAL_PRELOAD_BLOCKS')) {
+    define('ACF_EXPERIMENTAL_PRELOAD_BLOCKS', true);
+}
 
 /**
  * Build a block icon SVG (Lucide-style stroke icons for WP block inserter).
@@ -32,27 +38,11 @@ function skyrora_icon_paths($items) {
     return $svg;
 }
 
-// Register only the Skyrora category (hide default WP categories).
-add_filter('block_categories_all', function($categories, $post) {
-    return array(
-        array(
-            'slug'  => 'skyrora',
-            'title' => 'Skyrora',
-            'icon'  => skyrora_block_icon(skyrora_icon_paths(array(
-                array('path', array('d' => 'M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z')),
-                array('path', array('d' => 'm12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z')),
-                array('path', array('d' => 'M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0')),
-                array('path', array('d' => 'M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5')),
-            ))),
-        ),
-    );
-}, 10, 2);
+function skyrora_block_icons() {
+    static $icons = null;
 
-
-function theme_acf_blocks() {
-
-    if (!function_exists('acf_register_block_type')) {
-        return;
+    if ($icons !== null) {
+        return $icons;
     }
 
     $icons = array(
@@ -128,147 +118,346 @@ function theme_acf_blocks() {
         ))),
     );
 
-    acf_register_block_type(array(
-        'name'            => 'banner',
-        'title'           => 'Block - Banner',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/banner/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['banner'],
-        'keywords'        => array('banner'),
-        'enqueue_style'   => get_template_directory_uri() . '/blocks/banner/style.css',
-    ));
-
-    acf_register_block_type(array(
-        'name'            => 'products',
-        'title'           => 'Block - Products',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/products/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['products'],
-        'keywords'        => array('products'),
-    ));
-
-    acf_register_block_type(array(
-        'name'            => 'innovation',
-        'title'           => 'Block - Innovation',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/innovation/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['innovation'],
-        'keywords'        => array('innovation'),
-    ));
-
-    acf_register_block_type(array(
-        'name'            => 'dedicated',
-        'title'           => 'Block - Dedicated',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/dedicated/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['dedicated'],
-        'keywords'        => array('dedicated'),
-    ));
-
-    acf_register_block_type(array(
-        'name'            => 'news',
-        'title'           => 'Block - News',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/news/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['news'],
-        'keywords'        => array('news'),
-    ));
-
-    acf_register_block_type(array(
-        'name'            => 'leaders',
-        'title'           => 'Block - Leaders',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/leaders/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['leaders'],
-        'keywords'        => array('leaders'),
-    ));
-
-    acf_register_block_type(array(
-        'name'            => 'title',
-        'title'           => 'Block - Title',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/title/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['title'],
-        'keywords'        => array('title', 'heading'),
-    ));
-
-    acf_register_block_type(array(
-        'name'            => 'quote',
-        'title'           => 'Block - Quote',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/quote/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['quote'],
-        'keywords'        => array('quote', 'blockquote'),
-    ));
-
-    acf_register_block_type(array(
-        'name'            => 'partners',
-        'title'           => 'Block - Partners',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/partners/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['partners'],
-        'keywords'        => array('partners', 'logos'),
-    ));
-
-    acf_register_block_type(array(
-        'name'            => 'news-about',
-        'title'           => 'Block - News About',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/news-about/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['news-about'],
-        'keywords'        => array('partners', 'logos'),
-    ));
-
-    acf_register_block_type(array(
-        'name'            => 'paragraph',
-        'title'           => 'Block - Paragraph',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/paragraph/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['paragraph'],
-        'keywords'        => array('paragraph', 'text'),
-    ));
-
-    acf_register_block_type(array(
-        'name'            => 'corporate-value',
-        'title'           => 'Block - Corporate Value',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/corporate-value/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['corporate-value'],
-        'keywords'        => array('corporate', 'value', 'values'),
-    ));
-
-    acf_register_block_type(array(
-        'name'            => 'hero',
-        'title'           => 'Block - Hero',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/hero/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['hero'],
-        'keywords'        => array('hero', 'banner', 'landing'),
-    ));
-
-    acf_register_block_type(array(
-        'name'            => 'video',
-        'title'           => 'Block - Video',
-        'category'        => 'skyrora',
-        'render_template' => PATH . '/blocks/video/preview.php',
-        'mode'            => 'preview',
-        'icon'            => $icons['video'],
-        'keywords'        => array('video', 'media'),
-    ));
+    return $icons;
 }
 
-// Register blocks when ACF is initialized
-add_action('acf/init', 'theme_acf_blocks');
+add_filter('block_categories_all', function ($categories, $post) {
+    return array(
+        array(
+            'slug'  => 'skyrora',
+            'title' => 'Skyrora',
+            'icon'  => skyrora_block_icon(skyrora_icon_paths(array(
+                array('path', array('d' => 'M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z')),
+                array('path', array('d' => 'm12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z')),
+                array('path', array('d' => 'M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0')),
+                array('path', array('d' => 'M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5')),
+            ))),
+        ),
+    );
+}, 10, 2);
+
+add_action('acf/init', 'theme_register_blocks');
+
+add_filter('acf/register_block_type_args', 'theme_force_acf_blocks_v3');
+
+add_filter('acf/blocks/default_block_version', 'theme_default_acf_block_version', 10, 2);
+
+add_action('enqueue_block_editor_assets', 'skyrora_warm_acf_block_preview_cache', 5);
+
+function theme_force_acf_blocks_v3(array $args): array {
+    $args['api_version']       = 3;
+    $args['acf_block_version'] = 3;
+
+    if (!isset($args['supports']) || !is_array($args['supports'])) {
+        $args['supports'] = array();
+    }
+
+    $args['supports']['mode'] = true;
+
+    return $args;
+}
+
+function theme_default_acf_block_version($version, $block) {
+    return 2;
+}
+
+/**
+ * ACF 6 preloads editor HTML by default. ACF 5.9 only does this when
+ * ACF_EXPERIMENTAL_PRELOAD_BLOCKS is on, and only if the cache is already warm.
+ * Render saved ACF blocks first so Gutenberg can show them without a spinner.
+ */
+function skyrora_warm_acf_block_preview_cache() {
+    if (!function_exists('parse_blocks') || !function_exists('acf_rendered_block') || !function_exists('acf_get_store')) {
+        return;
+    }
+
+    if (function_exists('acf_update_setting')) {
+        acf_update_setting('preload_blocks', true);
+    }
+
+    $post = get_post();
+
+    if (!$post instanceof WP_Post && !empty($_GET['post'])) {
+        $post = get_post((int) $_GET['post']);
+    }
+
+    if (!$post instanceof WP_Post || $post->post_content === '') {
+        return;
+    }
+
+    skyrora_warm_acf_block_preview_cache_from_blocks(parse_blocks($post->post_content), (int) $post->ID);
+}
+
+function skyrora_warm_acf_block_preview_cache_from_blocks(array $blocks, $post_id) {
+    foreach ($blocks as $block) {
+        $name = $block['blockName'] ?? '';
+
+        if ($name && strpos($name, 'acf/') === 0 && function_exists('acf_has_block_type') && acf_has_block_type($name)) {
+            $attrs = isset($block['attrs']) && is_array($block['attrs']) ? $block['attrs'] : array();
+            $block_id = isset($attrs['id']) ? (string) $attrs['id'] : '';
+
+            if ($block_id !== '') {
+                $attrs['name'] = $name;
+                $html = '<div class="acf-block-preview">' . acf_rendered_block($attrs, $block['innerHTML'] ?? '', true, $post_id) . '</div>';
+
+                if (defined('ACF_VERSION') && version_compare(ACF_VERSION, '6.0', '>=')) {
+                    acf_get_store('block-cache')->set(
+                        $block_id,
+                        array(
+                            'form' => false,
+                            'html' => $html,
+                        )
+                    );
+                } else {
+                    acf_get_store('block-cache')->set($block_id, $html);
+                }
+            }
+        }
+
+        if (!empty($block['innerBlocks']) && is_array($block['innerBlocks'])) {
+            skyrora_warm_acf_block_preview_cache_from_blocks($block['innerBlocks'], $post_id);
+        }
+    }
+}
+
+function theme_register_blocks() {
+    if (!function_exists('acf_register_block_type')) {
+        return;
+    }
+
+    foreach (theme_get_block_paths() as $block_path) {
+        theme_register_acf_block_from_json($block_path);
+    }
+}
+
+function theme_register_acf_block_from_json($block_path) {
+    $block_json_path = $block_path . '/block.json';
+
+    if (!is_readable($block_json_path)) {
+        return;
+    }
+
+    $config = json_decode(file_get_contents($block_json_path), true);
+
+    if (!is_array($config) || empty($config['acf'])) {
+        return;
+    }
+
+    $acf_config = $config['acf'];
+    $block_slug = basename($block_path);
+    $name = $config['name'] ?? $block_slug;
+
+    if (strpos($name, 'acf/') === 0) {
+        $name = substr($name, 4);
+    }
+
+    $render_template = $acf_config['renderTemplate'] ?? 'render.php';
+
+    if (strpos($render_template, '/') !== 0) {
+        $render_template = $block_path . '/' . ltrim($render_template, './');
+    }
+
+    $icons = skyrora_block_icons();
+    $icon = $icons[$block_slug] ?? ($config['icon'] ?? 'block-default');
+
+    $args = array(
+        'name'              => $name,
+        'name_one'          => str_replace('-', '_', $name),
+        'title'             => $config['title'] ?? $name,
+        'category'          => $config['category'] ?? 'skyrora',
+        'icon'              => $icon,
+        'keywords'          => $config['keywords'] ?? array(),
+        'mode'              => $acf_config['mode'] ?? 'preview',
+        'render_template'   => $render_template,
+        'supports'          => array_merge(
+            array(
+                'mode'   => true,
+                'anchor' => true,
+            ),
+            $config['supports'] ?? array()
+        ),
+        'acf_block_version' => $acf_config['blockVersion'] ?? 2,
+        'api_version'       => $config['apiVersion'] ?? 2,
+    );
+
+    if (!empty($config['example'])) {
+        $args['example'] = $config['example'];
+        if (empty($args['example']['viewportWidth'])) {
+            $args['example']['viewportWidth'] = 1400;
+        }
+    }
+
+    if (!empty($config['style'])) {
+        $style = is_array($config['style']) ? $config['style'][0] : $config['style'];
+
+        if (strpos($style, 'file:./') === 0) {
+            $args['enqueue_style'] = PATH_URL . '/blocks/' . $block_slug . '/' . substr($style, 7);
+        }
+    }
+
+    if (!empty($config['viewScript'])) {
+        $script = is_array($config['viewScript']) ? $config['viewScript'][0] : $config['viewScript'];
+
+        if (strpos($script, 'file:./') === 0) {
+            $script_relative_path = substr($script, 7);
+            $script_file = $block_path . '/' . $script_relative_path;
+
+            if (is_readable($script_file)) {
+                $script_handle = 'theme-block-' . sanitize_title($name);
+                $script_url = PATH_URL . '/blocks/' . $block_slug . '/' . $script_relative_path;
+                $script_version = (string) filemtime($script_file);
+                $existing_enqueue_assets = $args['enqueue_assets'] ?? null;
+
+                $args['enqueue_assets'] = static function () use ($existing_enqueue_assets, $script_handle, $script_url, $script_version) {
+                    if (is_callable($existing_enqueue_assets)) {
+                        $existing_enqueue_assets();
+                    }
+
+                    wp_enqueue_script(
+                        $script_handle,
+                        $script_url,
+                        array(),
+                        $script_version,
+                        true
+                    );
+                };
+            }
+        }
+    }
+
+    acf_register_block_type($args);
+}
+
+function theme_get_block_paths() {
+    $paths = array();
+    $blocks_dir = PATH . '/blocks';
+
+    if (!is_dir($blocks_dir)) {
+        return $paths;
+    }
+
+    $iterator = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($blocks_dir, FilesystemIterator::SKIP_DOTS)
+    );
+
+    foreach ($iterator as $file) {
+        if ($file->getFilename() !== 'block.json') {
+            continue;
+        }
+
+        $paths[] = $file->getPath();
+    }
+
+    sort($paths);
+
+    return $paths;
+}
+
+function theme_get_registered_acf_block_names() {
+    $names = array();
+
+    foreach (theme_get_block_paths() as $block_path) {
+        $block_json_path = $block_path . '/block.json';
+
+        if (!is_readable($block_json_path)) {
+            continue;
+        }
+
+        $config = json_decode(file_get_contents($block_json_path), true);
+
+        if (!is_array($config) || empty($config['name'])) {
+            continue;
+        }
+
+        $name = $config['name'];
+
+        if (strpos($name, 'acf/') !== 0) {
+            $name = 'acf/' . $name;
+        }
+
+        $names[] = $name;
+    }
+
+    return $names;
+}
+
+/**
+ * Allow only theme ACF blocks discovered via block.json.
+ */
+add_filter('allowed_block_types_all', 'theme_allowed_blocks', 20, 2);
+
+function theme_allowed_blocks($allowed_blocks, $editor_context) {
+    $names = theme_get_registered_acf_block_names();
+
+    return $names !== array() ? $names : false;
+}
+
+/**
+ * Whether the editor should show placeholder demo content.
+ *
+ * ACF 5.9 does not pass `example` into WP register_block_type, and the
+ * block-renderer REST request often has $is_preview = false. Demo HTML is
+ * used when example data says so, or when an empty block is rendered in
+ * the editor / REST preview.
+ *
+ * @param bool  $is_preview
+ * @param array $block
+ * @param array $field_names
+ */
+function skyrora_block_should_use_placeholder($is_preview, $block, array $field_names) {
+    $data = (isset($block['data']) && is_array($block['data'])) ? $block['data'] : array();
+
+    if (!empty($data['is_preview'])) {
+        return true;
+    }
+
+    foreach ($field_names as $field_name) {
+        if (get_field($field_name)) {
+            return false;
+        }
+    }
+
+    if (!empty($is_preview) || is_admin()) {
+        return true;
+    }
+
+    return defined('REST_REQUEST') && REST_REQUEST && current_user_can('edit_posts');
+}
+
+/**
+ * ACF 5.9.3 registers blocks without `example`, so Gutenberg never shows
+ * the inserter / library preview. Copy it onto the WP block type.
+ */
+add_filter('register_block_type_args', 'skyrora_wp_block_type_args', 10, 2);
+
+function skyrora_wp_block_type_args($args, $name) {
+    if (strpos((string) $name, 'acf/') !== 0 || !function_exists('acf_get_block_type')) {
+        return $args;
+    }
+
+    $block = acf_get_block_type($name);
+
+    if (!is_array($block)) {
+        return $args;
+    }
+
+    if (!empty($block['example'])) {
+        $args['example'] = $block['example'];
+    }
+
+    foreach (array('title', 'category', 'icon', 'keywords') as $key) {
+        if (!empty($block[$key])) {
+            $args[$key] = $block[$key];
+        }
+    }
+
+    if (!empty($block['supports']) && is_array($block['supports'])) {
+        $args['supports'] = array_merge($args['supports'] ?? array(), $block['supports']);
+    }
+
+    return $args;
+}
+
+function skyrora_block_placeholder_image() {
+    return PATH_URL . '/dist/s/images/useful/stub.webp';
+}

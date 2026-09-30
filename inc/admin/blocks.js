@@ -2,16 +2,30 @@ jQuery(document).ready(function ($) {
 
 (function () {
 
+    function revealViewportChecker(el) {
+        el.classList.add('checker-visible');
+        el.classList.remove('invisible');
+    }
+
     function initViewportObserver() {
         const elements = document.querySelectorAll('.js-viewport-checker');
 
         if (!elements.length) return;
 
+        const inEditorCanvas = !!(
+            document.body.classList.contains('block-editor-iframe__body') ||
+            document.querySelector('.acf-block-preview')
+        );
+
+        if (inEditorCanvas) {
+            elements.forEach(revealViewportChecker);
+            return;
+        }
+
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('checker-visible');
-                    entry.target.classList.remove('invisible');
+                    revealViewportChecker(entry.target);
                     observer.unobserve(entry.target);
                 }
             });
@@ -130,7 +144,15 @@ jQuery(document).ready(function ($) {
                 if (!mutation.addedNodes || !mutation.addedNodes.length) continue;
                 mutation.addedNodes.forEach((node) => {
                     if (node.nodeType !== 1) return;
-                    if (node.matches && (node.matches('video') || node.querySelector('video') || node.matches('.js-product') || node.querySelector('.js-product'))) {
+                    if (node.matches && (
+                        node.matches('video') ||
+                        node.querySelector('video') ||
+                        node.matches('.js-product') ||
+                        node.querySelector('.js-product') ||
+                        node.matches('.js-viewport-checker') ||
+                        node.querySelector('.js-viewport-checker')
+                    )) {
+                        initViewportObserver();
                         playBlockVideos(node);
                         initProductHoverVideos(node);
                     }

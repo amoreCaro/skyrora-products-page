@@ -73,7 +73,7 @@
       }
 
       &:hover img {
-        @apply scale-105 brightness-110;
+        @apply brightness-110;
       }
 
       &::before {

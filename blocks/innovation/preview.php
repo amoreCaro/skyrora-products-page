@@ -1,61 +1,13 @@
 <?php
-if (!defined('ABSPATH')) {
-    exit;
-}
 
-/**
- * Block Name: Innovation
- */
+$is_placeholder_preview = true;
+$section_style = '';
+$innovation_media_type = 'image';
+$innovation_image = 0;
+$innovation_image_url = skyrora_block_placeholder_image();
+$innovation_video = '';
+$innovation_title = 'Innovation at the core';
+$innovation_content = 'From eco-propellant engines to fully integrated vehicle design.';
+$innovation_list = array('Propulsion', 'Avionics', 'Structures', 'Launch operations');
 
-$background_color = get_field('innovation_background_color');
-$section_style = $background_color
-    ? ' style="--about-bg: ' . esc_attr($background_color) . ';"'
-    : '';
-?>
-
-<section class="section about js-viewport-checker"<?php echo $section_style; ?>>
-    <div class="about__inner">
-        
-        <?php 
-        if ( get_field('innovation_media_type') === 'video' ) {
-            get_template_part('blocks/innovation/templates/background-video');
-        } else if (get_field('innovation_media_type') === 'image') { 
-            get_template_part('blocks/innovation/templates/background');
-        } 
-        
-        ?>
-
-        <div class="container">
-            <div data-rellax-percentage="0.2" class="about__content">
-                <div class="row">
-                    
-                    <div class="col-md-14 col-24">
-                        <article>
-                            <?php if ( get_field('innovation_title') ): ?>
-                                <h2><?php skyrora_print_escaped_field('innovation_title', 'textarea'); ?></h2>
-                            <?php endif; ?>
-
-                            <?php if ( get_field('innovation_content') ): ?>
-                                <p><?php skyrora_print_escaped_field('innovation_content'); ?></p>
-                            <?php endif; ?>
-                        </article>
-                    </div>
-
-                    <?php if ( have_rows('innovation_list') ): ?>
-                        <div class="col-md-10 col-24">
-                            <ul>
-                                <?php while ( have_rows('innovation_list') ): the_row(); ?>
-                                    <?php if ( get_sub_field('innovation_list_text') ): ?>
-                                        <li>
-                                            <span><?php echo esc_html( get_sub_field('innovation_list_text') ); ?></span>
-                                        </li>
-                                    <?php endif; ?>
-                                <?php endwhile; ?>
-                            </ul>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+include __DIR__ . '/render.php';

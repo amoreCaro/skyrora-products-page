@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "acf/dedicated",
+  "title": "Block - Dedicated",
+  "category": "skyrora",
+  "icon": "heart",
+  "keywords": ["dedicated"],
+  "style": "file:./style.css",
+  "acf": {
+    "blockVersion": 2,
+    "mode": "preview",
+    "renderTemplate": "render.php"
+  },
+  "supports": {
+    "anchor": true,
+    "mode": true
+  },
+  "example": {
+    "attributes": {
+      "mode": "preview",
+      "data": {
+        "is_preview": true
+      }
+    }
+  }
+}

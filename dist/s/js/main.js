@@ -13968,7 +13968,7 @@ $window.on("resize", (function() {
             var t = Math.trunc($(window).scrollTop() / e * 100);
             $(".js-header:not(.header--white)").find(".header--decor-opacity").css({
                 filter: "opacity(" + t + "%)"
-            }), $(".js-header").offset().top > 0 ? $(".js-header").closest(".l-wrapper").find(".js-header-anchor").css({
+            }), $(window).scrollTop() > 0 ? $(".js-header").closest(".l-wrapper").find(".js-header-anchor").css({
                 opacity: "0",
                 visibility: "hidden"
             }) : $(".js-header").closest(".l-wrapper").find(".js-header-anchor").css({

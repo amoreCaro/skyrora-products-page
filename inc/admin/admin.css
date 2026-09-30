@@ -77,28 +77,64 @@ h1.wp-block.wp-block-post-title.block-editor-block-list__block.editor-post-title
 .block-editor-block-list__block.wp-block-acf-hero,
 .wp-block-acf-hero,
 .wp-block-acf-hero .acf-block-preview,
-.acf-block-preview .banner.banner--landing {
+.block-editor-block-list__block.wp-block-acf-banner,
+.wp-block-acf-banner,
+.wp-block-acf-banner .acf-block-preview,
+.acf-block-preview .banner.banner--landing,
+.acf-block-preview .banner:not(.banner--landing) {
     overflow: hidden !important;
 }
 
-.acf-block-preview .banner.banner--landing {
+.acf-block-preview .banner.banner--landing,
+.acf-block-preview .banner:not(.banner--landing) {
     height: 670px;
 }
 
-.acf-block-preview .banner.banner--landing .banner__video {
+.acf-block-preview .banner.banner--landing .banner__video,
+.acf-block-preview .banner:not(.banner--landing) .banner__video {
     height: 100%;
 }
 
 @media (min-width: 1220px) {
-    .acf-block-preview .banner.banner--landing {
+    .acf-block-preview .banner.banner--landing,
+    .acf-block-preview .banner:not(.banner--landing) {
         height: 740px;
     }
 }
 
 @media (max-width: 767px) {
-    .acf-block-preview .banner.banner--landing {
+    .acf-block-preview .banner.banner--landing,
+    .acf-block-preview .banner:not(.banner--landing) {
         height: 520px;
     }
+}
+
+/* Banner title — drop global preview h1 margin-bottom: 5px */
+.acf-block-preview .banner__content-txt h1 {
+    margin-bottom: 0;
+}
+
+.acf-block-preview .banner__content-txt {
+    max-width: 680px;
+}
+
+/* Home banner Scroll — body is 1.6rem on frontend (html 10px → 16px) */
+.acf-block-preview .banner__content-scrollDown a {
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.acf-block-preview .banner__content-scrollDown a span + .icon-arrow-down {
+    font-size: 12px;
+    margin-left: 12px;
+}
+
+/* Scroll — hover via parent; <a> stays pointer-events:none */
+.acf-block-preview .banner__content-scrollDown:hover a .icon,
+.acf-block-preview .banner__content-scrollDown:hover a span {
+    color: #2a5dea;
 }
 
 /* 150px = 15rem at frontend html font-size: 10px */
@@ -162,6 +198,22 @@ svg.skyrora-block-icon [fill="none"] {
 }
 
 /* ------------------------------------------------------------------ */
+/* Paragraph/quote — editor spacing (match frontend article-container) */
+/* :last-child fails inside isolated .acf-block-preview                */
+/* Frontend: .article-container:not(:last-child) { margin-bottom: 5rem } */
+/* 50px = 5rem at frontend html font-size: 10px                        */
+/* WP editor .editor-styles-wrapper p { margin-bottom: ~1em } → 20px   */
+/* ------------------------------------------------------------------ */
+.acf-block-preview .article-container {
+    margin-bottom: 50px;
+}
+
+.acf-block-preview .article-landing > p:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* ------------------------------------------------------------------ */
 /* Quote only — editor top spacing (do not apply to paragraph block)   */
 /* .acf-block-component/.acf-block-body live outside the canvas iframe */
 /* so they cannot target <article> — use .acf-block-preview instead    */
@@ -175,53 +227,102 @@ svg.skyrora-block-icon [fill="none"] {
 /* px values = frontend rem at html font-size: 10px                    */
 /* padding-left: 5rem → 50px (desktop); keep 50px in editor preview    */
 /* ------------------------------------------------------------------ */
+/* Match frontend: .article-landing--long { max-width: initial } inside .container (1011px / 1200px).
+ * Paragraph blocks stay at 680px; quote uses the full article container. */
+.editor-styles-wrapper .wp-block-acf-quote .article-landing,
+.editor-styles-wrapper .wp-block-acf-quote .article-landing p,
+.editor-styles-wrapper .wp-block-acf-quote .article-landing ul,
+.editor-styles-wrapper .wp-block-acf-quote blockquote,
+.editor-styles-wrapper .wp-block-acf-quote blockquote p,
+.acf-block-preview article.article-landing.article-landing--quote,
+.acf-block-preview article.article-landing.article-landing--quote p,
+.acf-block-preview article.article-landing.article-landing--quote ul,
+.wp-block-acf-quote .article-landing,
+.acf-block-preview .article-landing--long blockquote,
+.acf-block-preview .article-landing--quote blockquote,
+.acf-block-preview .article-landing--long blockquote p,
+.acf-block-preview .article-landing--quote blockquote p,
+.wp-block-acf-quote blockquote,
+.wp-block-acf-quote blockquote p {
+    max-width: none !important;
+    width: 100%;
+}
+
 .acf-block-preview .article-landing--long blockquote,
 .acf-block-preview blockquote {
     margin: 0;
     padding: 0 0 0 50px;
     border-left: 3px solid #2a5dea;
-    max-width: initial;
 }
 
-.acf-block-preview .article-landing--long blockquote p {
+.acf-block-preview .article-landing--long blockquote p,
+.acf-block-preview .article-landing--quote blockquote p,
+.wp-block-acf-quote blockquote p {
     margin-top: 0;
     margin-bottom: 20px;
     font-family: 'Bai Jamjuree', sans-serif;
     font-weight: 600;
-    font-size: 22px;
-    line-height: 31px;
+    /* 22px = frontend 2.2rem at html 10px; do not set this on blockquote — ul would inherit it */
+    font-size: 22px !important;
+    line-height: 31px !important;
     color: #fff;
-    max-width: initial;
 }
 
-.acf-block-preview .article-landing--long blockquote p:last-child {
+.acf-block-preview .article-landing--long blockquote p:last-child,
+.acf-block-preview .article-landing--quote blockquote p:last-child,
+.wp-block-acf-quote blockquote p:last-child {
     margin-bottom: 0;
 }
 
-.acf-block-preview .article-landing--long blockquote ul {
-    max-width: initial;
-    padding-left: 0;
-    list-style: none;
-    margin: 0;
+/* Editor canvas is often <767px; do not use the frontend mobile 20px / 2rem size */
+@media (max-width: 767px) {
+    .acf-block-preview blockquote p,
+    .acf-block-preview .article-landing--long blockquote p,
+    .acf-block-preview .article-landing--quote blockquote p,
+    .wp-block-acf-quote blockquote p {
+        font-size: 22px !important;
+        line-height: 31px !important;
+    }
 }
 
+/* WP reset uses margin/padding: revert on ul (1em + 40px). Beat that.
+ * rem here would be html 16px → 15rem = 240px vs frontend 150px / 1.8rem = 18px. */
+.editor-styles-wrapper .wp-block-acf-quote ul,
+.acf-block-preview .article-landing--quote ul,
+.acf-block-preview .article-landing--long blockquote ul,
+.wp-block-acf-quote blockquote ul {
+    max-width: none !important;
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+    list-style: none !important;
+}
+
+.editor-styles-wrapper .wp-block-acf-quote ul li,
+.acf-block-preview .article-landing--quote ul li,
 .acf-block-preview .article-landing--long blockquote ul li,
-.acf-block-preview .article-landing--long ul li {
+.acf-block-preview .article-landing--long ul li,
+.wp-block-acf-quote blockquote ul li {
     display: flex;
     align-items: flex-start;
-    font-size: 18px;
-    line-height: 1.6em;
+    font-size: 18px !important;
+    line-height: 1.6em !important;
     color: #fff;
     font-weight: 500;
+    margin: 0 !important;
 }
 
+.acf-block-preview .article-landing--quote ul li:not(:last-child),
 .acf-block-preview .article-landing--long blockquote ul li:not(:last-child),
-.acf-block-preview .article-landing--long ul li:not(:last-child) {
-    margin-bottom: 10px;
+.acf-block-preview .article-landing--long ul li:not(:last-child),
+.wp-block-acf-quote blockquote ul li:not(:last-child) {
+    margin-bottom: 10px !important;
 }
 
+.acf-block-preview .article-landing--quote ul li::before,
 .acf-block-preview .article-landing--long blockquote ul li::before,
-.acf-block-preview .article-landing--long ul li::before {
+.acf-block-preview .article-landing--long ul li::before,
+.wp-block-acf-quote blockquote ul li::before {
     content: " ";
     width: 8px;
     height: 8px;
@@ -234,7 +335,12 @@ svg.skyrora-block-icon [fill="none"] {
 /* ------------------------------------------------------------------ */
 /* Hero page nav — hover via li; <a> stays pointer-events:none         */
 /* Match frontend .banner__content-list ul a:hover (blue underline)    */
+/* line-height 1.2em (not 16px) so the list is ~121.81px like frontend */
 /* ------------------------------------------------------------------ */
+.acf-block-preview .banner__content-list ul a {
+    line-height: 1.2em;
+}
+
 .acf-block-preview .banner__content-list ul li:hover a {
     border-bottom: 1px solid rgba(255, 255, 255, 0);
 }
@@ -337,3 +443,18 @@ svg.skyrora-block-icon [fill="none"] {
     z-index: 1;
     pointer-events: none;
 }
+
+/* Video/innovation must overlay products in the editor canvas too */
+.acf-block-preview .about {
+    z-index: 100;
+}
+
+.editor-styles-wrapper .block-editor-block-list__block.wp-block-acf-products {
+    z-index: 3;
+}
+
+.editor-styles-wrapper .block-editor-block-list__block.wp-block-acf-video,
+.editor-styles-wrapper .block-editor-block-list__block.wp-block-acf-innovation {
+    z-index: 4;
+}
+
